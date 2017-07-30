@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from fixture.session import SessionHelper
+from fixture.manage import ManageHelper
+from fixture.manage_projects import ManageProjectsHelper
 
 class Application(object):
     def __init__(self, browser, base_url):
@@ -13,7 +15,10 @@ class Application(object):
         else:
             raise ValueError(f"Unrecognized browser {browser}")
 
+        self.wd.implicitly_wait(3)
         self.session = SessionHelper(self)
+        self.manage = ManageHelper(self)
+        self.manage_projects = ManageProjectsHelper(self)
         self.base_url = base_url
         self.open_home_page()
 

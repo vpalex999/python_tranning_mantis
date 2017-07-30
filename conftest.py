@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from idlelib import browser
+
 
 import pytest
 import json
@@ -25,11 +25,12 @@ def app(request):
     global fixture
     global target
     brows = request.config.getoption("--browser")
-    web_config = load_config(request.config.getoption("--target"))["web"]
-    if fixture is None or not fixture.is_valid():
-        fixture = Application(browser=brows, base_url=web_config["baseUrl"])
+    web_config = load_config(request.config.getoption("--target"))
 
-    # fixture.session.ensure_login(username=web_config["username"], password=web_config["password"])
+    if fixture is None or not fixture.is_valid():
+        fixture = Application(browser=brows, base_url=web_config["web"]["baseUrl"])
+
+    fixture.session.ensure_login(username=web_config["webadmin"]["username"], password=web_config["webadmin"]["password"])
     return fixture
 
 
